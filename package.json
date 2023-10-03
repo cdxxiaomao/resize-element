@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "serve": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview --host",
     "prepare": "husky install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
