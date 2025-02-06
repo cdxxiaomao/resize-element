@@ -7,8 +7,11 @@
     "serve": "vite --host",
     "build": "vite build",
     "preview": "vite preview --host",
-    "prepare": "husky install",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "release-major": "standard-version --release-as major",
+    "release-minor": "standard-version --release-as minor",
+    "release-patch": "standard-version --release-as patch",
+    "release-tag": "node build/release.js",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -33,8 +36,10 @@
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-vue": "^9.17.0",
     "husky": "^8.0.0",
+    "inquirer": "^8.0.0",
     "less": "^4.2.0",
     "lint-staged": "^14.0.1",
+    "standard-version": "^9.5.0",
     "typescript": "*",
     "vite": "^4.4.9"
   },
@@ -51,7 +56,28 @@
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
-    ]
+    ],
+    "rules": {
+      "type-enum": [
+        2,
+        "always",
+        [
+          "feat",
+          "fix",
+          "docs",
+          "style",
+          "refactor",
+          "test",
+          "build",
+          "revert",
+          "merge",
+          "perf",
+          "chore",
+          "ci",
+          "types",
+          "chore(release)"
+        ]
+      ]
+    }
   }
 }
-
