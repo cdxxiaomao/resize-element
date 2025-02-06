@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    Vue
+    Vue test
   </div>
 </template>
 
