@@ -12,7 +12,7 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, 'lib/index.ts'),
       fileName: (format) => `index.${format}.js`,
-      name: 'LibName'
+      name: 'resizeElement'
     }
   }
 })
