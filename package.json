@@ -2,7 +2,9 @@
   "name": "base-vite-vue-ts-eslint-husky",
   "version": "1.0.0",
   "description": "vite+vue+ts+less+eslint+husky基础环境",
-  "main": "index.js",
+  "main": "dist/index.es.js",
+  "module": "dist/index.es.js",
+  "typings": "dist/lib/index.d.ts",
   "scripts": {
     "serve": "vite --host",
     "build": "vite build",
@@ -45,6 +47,7 @@
     "standard-version": "^9.5.0",
     "typescript": "*",
     "vite": "^4.4.9",
+    "vite-plugin-dts": "^4.5.0",
     "vitepress": "^1.6.3"
   },
   "lint-staged": {

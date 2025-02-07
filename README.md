@@ -1,7 +1,11 @@
 # base-vite-vue-ts-eslint-husky
 
 #### 介绍
-Vue3项目基础环境
+插件开发环境，集成文档、版本发布，自动生成更新日志
+
+#### 前期准备
+1. 修改包名称 `package.json` 的 `name`
+2. 修改umd全局变量名 `vite.config.ts` 的 `build.lib.name`
 
 软件架构
 
@@ -33,11 +37,19 @@ Vue3项目基础环境
    npm run serve
    ```
 
-3. 打包项目
+3. 打包插件
 
    ```sh
    npm run build
    ```
+   
+4. 发布版本
+   ```shell
+   npm run release-tag
+   ```
+
+5. 推送npm
+
 
 #### 注意事项
 

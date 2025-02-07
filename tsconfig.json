@@ -16,6 +16,8 @@
   },
   "parserOptions": ["vue"],
   "include": [
+    "lib/*.ts",
+    "lib/**/*.ts",
     "src/*.ts",
     "src/**/*.ts",
     "src/**/*.vue",
@@ -25,5 +27,14 @@
     "test/*.ts",
     "*.ts"
   ],
-  "exclude": ["node_modules", "tests/server/**/*.ts", "dist"]
+  "exclude": [
+    "node_modules",
+    "tests/server/**/*.ts",
+    "dist",
+    "src/*.ts",
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "src/*.vue",
+    "vite.config.ts"
+  ]
 }
