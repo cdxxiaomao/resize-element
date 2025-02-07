@@ -11,7 +11,10 @@
     "release-minor": "standard-version --release-as minor",
     "release-patch": "standard-version --release-as patch",
     "release-tag": "node build/release.js",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "repository": {
     "type": "git",
@@ -41,7 +44,8 @@
     "lint-staged": "^14.0.1",
     "standard-version": "^9.5.0",
     "typescript": "*",
-    "vite": "^4.4.9"
+    "vite": "^4.4.9",
+    "vitepress": "^1.6.3"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,vue}": [
