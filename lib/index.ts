@@ -1,6 +1,7 @@
 import { type IResizeElementOptions, RESIZE_POSITION_ENUM } from './types'
 
-export function useResizeElement (el: HTMLElement, options?: IResizeElementOptions) {
+export function useResizeElement (el: HTMLElement | string, options?: IResizeElementOptions) {
+  const resizeEl = getEl(el)
   const resizeHandles = new Map<string, HTMLElement>()
   const defaultOptions: IResizeElementOptions = {
     position: [
@@ -18,6 +19,30 @@ export function useResizeElement (el: HTMLElement, options?: IResizeElementOptio
   }
 
   options = { ...defaultOptions, ...options }
+
+  // 判读是否为HTMLElement
+  function isHTMLElement (obj: any): obj is HTMLElement {
+    return obj && typeof obj.tagName === 'string'
+  }
+
+  function getElementByIdString (idString: string): HTMLElement | null {
+    if (idString.startsWith('#')) {
+      idString = idString.slice(1) // 去掉开头的 '#'
+    }
+    return document.getElementById(idString)
+  }
+
+  // 获取节点
+  function getEl (el: HTMLElement | string): HTMLElement {
+    if (isHTMLElement(el)) {
+      return el
+    }
+
+    const element = getElementByIdString(el)
+    if (element) {
+      return element
+    }
+  }
 
   // 创建可拖拽区域的handle
   function createResizeHandle (position) {
@@ -93,10 +118,10 @@ export function useResizeElement (el: HTMLElement, options?: IResizeElementOptio
       const startX = e.clientX
       const startY = e.clientY
 
-      const initialWidth = parseFloat(document.defaultView?.getComputedStyle(el)?.width ?? '0')
-      const initialHeight = parseFloat(document.defaultView?.getComputedStyle(el)?.height ?? '0')
-      const initialLeft = parseFloat(document.defaultView?.getComputedStyle(el)?.left ?? '0')
-      const initialTop = parseFloat(document.defaultView?.getComputedStyle(el)?.top ?? '0')
+      const initialWidth = parseFloat(document.defaultView?.getComputedStyle(resizeEl)?.width ?? '0')
+      const initialHeight = parseFloat(document.defaultView?.getComputedStyle(resizeEl)?.height ?? '0')
+      const initialLeft = parseFloat(document.defaultView?.getComputedStyle(resizeEl)?.left ?? '0')
+      const initialTop = parseFloat(document.defaultView?.getComputedStyle(resizeEl)?.top ?? '0')
 
       document.addEventListener('mousemove', resize)
       document.addEventListener('mouseup', stopResize)
@@ -116,41 +141,41 @@ export function useResizeElement (el: HTMLElement, options?: IResizeElementOptio
       let transition
 
       function resize (e) {
-        transition = document.defaultView?.getComputedStyle(el).transition
-        el.style.transition = 'none'
+        transition = document.defaultView?.getComputedStyle(resizeEl).transition
+        resizeEl.style.transition = 'none'
         if (position.includes('right')) {
-          el.style.setProperty('width', `${getSize(initialWidth + e.clientX - startX, 'width')}px`, options?.isImportant ? 'important' : undefined)
+          resizeEl.style.setProperty('width', `${getSize(initialWidth + e.clientX - startX, 'width')}px`, options?.isImportant ? 'important' : undefined)
         }
         if (position.includes('bottom')) {
-          el.style.setProperty('height', `${getSize(initialHeight + e.clientY - startY, 'height')}px`, options?.isImportant ? 'important' : undefined)
+          resizeEl.style.setProperty('height', `${getSize(initialHeight + e.clientY - startY, 'height')}px`, options?.isImportant ? 'important' : undefined)
         }
         if (position.includes('left')) {
           const width = getSize(initialWidth - (e.clientX - startX), 'width')
 
-          el.style.setProperty('width', `${width}px`, options?.isImportant ? 'important' : undefined)
+          resizeEl.style.setProperty('width', `${width}px`, options?.isImportant ? 'important' : undefined)
 
           if (options?.isFixed) {
             const left = initialLeft - (width - initialWidth)
-            el.style.setProperty('left', `${left < 0 ? 0 : left}px`, options?.isImportant ? 'important' : undefined)
+            resizeEl.style.setProperty('left', `${left < 0 ? 0 : left}px`, options?.isImportant ? 'important' : undefined)
           }
         }
         if (position.includes('top')) {
           const height = getSize(initialHeight - (e.clientY - startY), 'height')
 
-          el.style.setProperty('height', `${height}px`, options?.isImportant ? 'important' : undefined)
+          resizeEl.style.setProperty('height', `${height}px`, options?.isImportant ? 'important' : undefined)
 
           if (options?.isFixed) {
             const top = initialTop - (height - initialHeight)
-            el.style.setProperty('top', `${top < 0 ? 0 : top}px`, options?.isImportant ? 'important' : undefined)
+            resizeEl.style.setProperty('top', `${top < 0 ? 0 : top}px`, options?.isImportant ? 'important' : undefined)
           }
         }
-        options?.onResize?.({ position, el, type: 'start' })
+        options?.onResize?.({ position, el: resizeEl, type: 'start' })
       }
 
       function stopResize () {
-        el.style.transition = transition
+        resizeEl.style.transition = transition
 
-        options?.onResize?.({ position, el, type: 'stop' })
+        options?.onResize?.({ position, el: resizeEl, type: 'stop' })
 
         document.removeEventListener('mousemove', resize)
         document.removeEventListener('mouseup', stopResize)
@@ -166,7 +191,7 @@ export function useResizeElement (el: HTMLElement, options?: IResizeElementOptio
     (options?.position ?? []).forEach((position) => {
       const handle = createResizeHandle(position)
       resizeHandles.set(position, handle)
-      el.appendChild(handle)
+      resizeEl.appendChild(handle)
     })
   }
 
@@ -175,8 +200,8 @@ export function useResizeElement (el: HTMLElement, options?: IResizeElementOptio
     if (resizeHandles.size > 0) {
       return
     }
-    if (el && (getComputedStyle(el).position === 'static' || !getComputedStyle(el).position)) {
-      el.style.position = 'relative'
+    if (el && (getComputedStyle(resizeEl).position === 'static' || !getComputedStyle(resizeEl).position)) {
+      resizeEl.style.position = 'relative'
     }
 
     createEdgeHandles()
