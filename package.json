@@ -12,7 +12,8 @@
     "release-major": "standard-version --release-as major",
     "release-minor": "standard-version --release-as minor",
     "release-patch": "standard-version --release-as patch",
-    "release-tag": "node build/release.js",
+    "lib:publish": "node publish.js",
+    "release-tag": "node build/release.js && npm run lib:publish",
     "prepare": "husky install",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
@@ -86,5 +87,8 @@
         ]
       ]
     }
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
