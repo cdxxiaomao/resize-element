@@ -1,20 +1,16 @@
 <template>
-  <div class="container">
-    <div
-      ref="el"
-      style="width: 300px; height: 300px; border: 1px solid #000"
-    />
-  </div>
+  <div
+    id="el"
+    style="width: 300px; height: 300px; border: 1px dashed #c5c5c5"
+  />
 </template>
 
 <script setup lang="ts">
 import { useResizeElement } from '../lib'
-import { onMounted, ref, unref } from 'vue'
-
-const el = ref()
+import { onMounted } from 'vue'
 
 onMounted(() => {
-  useResizeElement(unref(el), {
+  useResizeElement('#el', {
     position: [
       'bottom',
       'left',
@@ -30,8 +26,4 @@ onMounted(() => {
 </script>
 
 <style scoped lang="less">
-.container {
-  width: 100%;
-  height: 100%
-}
 </style>
