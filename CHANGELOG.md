@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.3](https://github.com/cdxxiaomao/resize-element/compare/v0.0.2...v0.0.3) (2025-03-09)
+
+
+### Features
+
+* 增加 showOnHover 选项，增加 setGlobalOptions 可配置全局方法 ([1fd177c](https://github.com/cdxxiaomao/resize-element/commit/1fd177c9f8868be4159d983c08588bf71c3dbbe0))
+
 ### [0.0.2](https://github.com/cdxxiaomao/resize-element/compare/v0.0.1...v0.0.2) (2025-02-15)
 
 ### [0.0.1](https://github.com/cdxxiaomao/resize-element/compare/v1.0.0...v0.0.1) (2025-02-15)
