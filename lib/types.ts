@@ -26,4 +26,6 @@ export interface IResizeElementOptions {
   edgeSize?: number
   // 样式是否增加权重,默认
   isImportant?: boolean
+  // 是否鼠标移入才显示拖拽点
+  showOnHover?: boolean
 }

@@ -1,5 +1,13 @@
 import { type IResizeElementOptions, RESIZE_POSITION_ENUM } from './types'
 
+// 全局配置对象
+const globalOptions: IResizeElementOptions = {
+  minWidth: 50,
+  minHeight: 50,
+  edgeSize: 5, // 可拖拽区域大小
+  showOnHover: true // 默认全局配置
+}
+
 export function useResizeElement (el: HTMLElement | string, options?: IResizeElementOptions) {
   const resizeEl = getEl(el)
   const resizeHandles = new Map<string, HTMLElement>()
@@ -11,11 +19,12 @@ export function useResizeElement (el: HTMLElement | string, options?: IResizeEle
       RESIZE_POSITION_ENUM.LEFT
     ],
     isFixed: false,
-    minWidth: 50,
-    minHeight: 50,
-    edgeSize: 10, // 可拖拽区域大小
+    minWidth: globalOptions.minWidth,
+    minHeight: globalOptions.minHeight,
+    edgeSize: globalOptions.edgeSize, // 可拖拽区域大小
     onResize: () => {}, // 拖拽回调函数
-    isImportant: true
+    isImportant: true,
+    showOnHover: globalOptions.showOnHover // 使用全局配置
   }
 
   options = { ...defaultOptions, ...options }
@@ -50,39 +59,46 @@ export function useResizeElement (el: HTMLElement | string, options?: IResizeEle
     handle.classList.add('resize-handle')
     handle.classList.add(position)
     handle.style.position = 'absolute'
-    handle.style.width = '5px'
-    handle.style.height = '5px'
+    handle.style.width = `${options?.edgeSize ?? globalOptions.edgeSize}px`
+    handle.style.height = `${options?.edgeSize ?? globalOptions.edgeSize}px`
     handle.style.borderRadius = '10px'
     handle.style.zIndex = '100'
     handle.style.backgroundColor = 'rgba(129,129,129,0.2)'
     handle.style.cursor = getCursorForPosition(position)
+    handle.style.display = 'none'
 
     handle.addEventListener('mouseenter', () => {
-      handle.style.backgroundColor = 'rgba(115,115,115,0.47)' // 可以设置为任何你想要的颜色
+      handle.style.backgroundColor = 'rgba(115,115,115,0.47)'
     })
 
-    // 鼠标移出时恢复原来的颜色
     handle.addEventListener('mouseleave', () => {
-      handle.style.backgroundColor = 'rgba(129,129,129,0.2)' // 恢复原来的颜色
+      handle.style.backgroundColor = 'rgba(129,129,129,0.2)'
     })
 
-    // 根据position设置handle的初始位置
     switch (position) {
       case 'top-left':
         handle.style.top = '0'
         handle.style.left = '0'
+        handle.style.width = '10px'
+        handle.style.height = '10px'
         break
       case 'top-right':
         handle.style.top = '0'
         handle.style.right = '0'
+        handle.style.width = '10px'
+        handle.style.height = '10px'
         break
       case 'bottom-left':
         handle.style.bottom = '0'
         handle.style.left = '0'
+        handle.style.width = '10px'
+        handle.style.height = '10px'
         break
       case 'bottom-right':
         handle.style.bottom = '0'
         handle.style.right = '0'
+        handle.style.width = '10px'
+        handle.style.height = '10px'
         break
       case 'top':
         handle.style.top = '0'
@@ -205,6 +221,26 @@ export function useResizeElement (el: HTMLElement | string, options?: IResizeEle
     }
 
     createEdgeHandles()
+
+    // 如果 showOnHover 为 false，默认显示拖拽点
+    if (!options?.showOnHover) {
+      resizeHandles.forEach(handle => {
+        handle.style.display = 'block'
+      })
+    } else {
+      // 添加鼠标移入移出事件监听，仅在 showOnHover 为 true 时生效
+      resizeEl.addEventListener('mouseenter', () => {
+        resizeHandles.forEach(handle => {
+          handle.style.display = 'block'
+        })
+      })
+
+      resizeEl.addEventListener('mouseleave', () => {
+        resizeHandles.forEach(handle => {
+          handle.style.display = 'none'
+        })
+      })
+    }
   }
 
   // 根据position获取光标值
@@ -244,4 +280,9 @@ export function useResizeElement (el: HTMLElement | string, options?: IResizeEle
     init,
     uninstall
   }
+}
+
+// 全局设置方法
+export function setGlobalOptions (newOptions: Partial<IResizeElementOptions>) {
+  Object.assign(globalOptions, newOptions)
 }
