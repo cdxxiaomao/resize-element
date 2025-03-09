@@ -29,6 +29,7 @@ useResizeElement<HTMLElement | string, Options>
 |  isFixed | false                              | true                                                                                          | 是否固定位置   |
 |  minWidth | 50                                 | number                                                                                        | 最小宽度     |
 |  minHeight | 50                                 | number                                                                                        | 最小高度     |
+|  showOnHover | false                              | boolean                                                                                        | 是否鼠标移入才显示拖拽点     |
 |  edgeSize | 10                                 | number                                                                                        | 可拖拽区域大小  |
 |  isImportant | true                               | false                                                                                         | 样式是否增加权重 |
 |  onResize | -                                  | (event: { position: RESIZE_POSITION_ENUM, type: 'start' \| 'stop', el: HTMLElement }) => void | 事件       |
@@ -39,3 +40,10 @@ useResizeElement<HTMLElement | string, Options>
 | 方法名 | 参数 | 描述   |
 |-----|----|------|
 |   uninstall  | -  | 销毁 |
+
+
+## GlobMethods
+
+| 方法名 | 参数           | 描述         |
+|-----|--------------|------------|
+|   setGlobalOptions  | newOptions: Options | 设置全局默认参数方法 |
