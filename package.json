@@ -1,5 +1,5 @@
 {
-  "name": "@poohou/resize-element",
+  "name": "poohou-resize-element",
   "version": "0.0.3",
   "description": "拖拽元素尺寸大小的公共方法库",
   "main": "dist/index.es.js",
