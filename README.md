@@ -44,6 +44,9 @@ useResizeElement<HTMLElement | string, Options>
 
 ## GlobMethods
 
+```typescript
+    import { setGlobalOptions } from '@poohou/resize-element'
+```
 | 方法名 | 参数           | 描述         |
 |-----|--------------|------------|
 |   setGlobalOptions  | newOptions: Options | 设置全局默认参数方法 |
