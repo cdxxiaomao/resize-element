@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.1.0](https://github.com/cdxxiaomao/resize-element/compare/v0.0.3...v0.1.0) (2025-03-16)
+
+
+### Features
+
+* 增加 showHandleStyle 是否展示拖拽样式选项，默认为true ([50d3d88](https://github.com/cdxxiaomao/resize-element/commit/50d3d88ae3b9777ff4e485dedcc37bde559ab2d6))
+
+
+### Bug Fixes
+
+* 修改包名称 ([71edc51](https://github.com/cdxxiaomao/resize-element/commit/71edc518faae4015b29a465e2e3ad392f80a5c56))
+
 ### [0.0.3](https://github.com/cdxxiaomao/resize-element/compare/v0.0.2...v0.0.3) (2025-03-09)
 
 
