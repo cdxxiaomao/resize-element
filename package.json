@@ -27,9 +27,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "vue": "^3.3.4"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@commitlint/cli": "^17.7.2",
     "@commitlint/config-conventional": "^17.7.0",
@@ -50,7 +48,8 @@
     "typescript": "*",
     "vite": "^4.4.9",
     "vite-plugin-dts": "^4.5.0",
-    "vitepress": "^1.6.3"
+    "vitepress": "^1.6.3",
+    "vue": "^3.3.4"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,vue}": [
