@@ -12,7 +12,7 @@ import { onMounted } from 'vue'
 onMounted(() => {
   useResizeElement('#el', {
     // showOnHover: false,
-    // showHandleStyle: false,
+    showHandleStyle: false,
     // edgeSize: 50,
     position: [
       'bottom',
