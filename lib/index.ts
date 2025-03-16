@@ -67,6 +67,11 @@ export function useResizeElement (el: HTMLElement | string, options?: IResizeEle
     handle.style.cursor = getCursorForPosition(position)
     handle.style.display = 'none'
 
+    // 提高四个角的 z-index 值
+    if (['top-left', 'top-right', 'bottom-left', 'bottom-right'].includes(position)) {
+      handle.style.zIndex = '101' // 设置比边的 z-index 更高的值
+    }
+
     // 仅在非四个角的位置创建 innerHandle
     if (!['top-left', 'top-right', 'bottom-left', 'bottom-right'].includes(position)) {
       const innerHandle = document.createElement('div')
