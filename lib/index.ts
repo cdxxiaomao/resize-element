@@ -5,7 +5,8 @@ const globalOptions: IResizeElementOptions = {
   minWidth: 50,
   minHeight: 50,
   edgeSize: 5, // 可拖拽区域大小
-  showOnHover: true // 默认全局配置
+  showOnHover: true, // 默认全局配置
+  showHandleStyle: true // 新增配置项，默认展示拖拽样式
 }
 
 export function useResizeElement (el: HTMLElement | string, options?: IResizeElementOptions) {
@@ -24,7 +25,8 @@ export function useResizeElement (el: HTMLElement | string, options?: IResizeEle
     edgeSize: globalOptions.edgeSize, // 可拖拽区域大小
     onResize: () => {}, // 拖拽回调函数
     isImportant: true,
-    showOnHover: globalOptions.showOnHover // 使用全局配置
+    showOnHover: globalOptions.showOnHover, // 使用全局配置
+    showHandleStyle: globalOptions.showHandleStyle // 新增配置项，默认展示拖拽样式
   }
 
   options = { ...defaultOptions, ...options }
@@ -61,68 +63,123 @@ export function useResizeElement (el: HTMLElement | string, options?: IResizeEle
     handle.style.position = 'absolute'
     handle.style.width = `${options?.edgeSize ?? globalOptions.edgeSize}px`
     handle.style.height = `${options?.edgeSize ?? globalOptions.edgeSize}px`
-    handle.style.borderRadius = '10px'
     handle.style.zIndex = '100'
-    handle.style.backgroundColor = 'rgba(129,129,129,0.2)'
     handle.style.cursor = getCursorForPosition(position)
     handle.style.display = 'none'
 
-    handle.addEventListener('mouseenter', () => {
-      handle.style.backgroundColor = 'rgba(115,115,115,0.47)'
-    })
+    // 仅在非四个角的位置创建 innerHandle
+    if (!['top-left', 'top-right', 'bottom-left', 'bottom-right'].includes(position)) {
+      const innerHandle = document.createElement('div')
+      innerHandle.style.position = 'absolute'
+      innerHandle.style.backgroundColor = 'transparent'
+      innerHandle.style.top = '50%'
+      innerHandle.style.left = '50%'
+      innerHandle.style.transform = 'translate(-50%, -50%)'
 
-    handle.addEventListener('mouseleave', () => {
-      handle.style.backgroundColor = 'rgba(129,129,129,0.2)'
-    })
+      if (options?.showHandleStyle) {
+        if (position.includes('top') || position.includes('bottom')) {
+          innerHandle.style.width = '10px'
+          innerHandle.style.height = '2px'
+          innerHandle.style.borderTop = '1px solid rgba(115,115,115,0.47)'
+          innerHandle.style.borderBottom = '1px solid rgba(115,115,115,0.47)'
+        } else if (position.includes('left') || position.includes('right')) {
+          innerHandle.style.width = '2px'
+          innerHandle.style.height = '10px'
+          innerHandle.style.borderLeft = '1px solid rgba(115,115,115,0.47)'
+          innerHandle.style.borderRight = '1px solid rgba(115,115,115,0.47)'
+        }
+      }
+
+      handle.appendChild(innerHandle)
+
+      if (options?.showHandleStyle) {
+        handle.addEventListener('mouseenter', () => {
+          if (position.includes('top') || position.includes('bottom')) {
+            innerHandle.style.borderTop = '1px solid rgba(129,129,129,0.8)'
+            innerHandle.style.borderBottom = '1px solid rgba(129,129,129,0.8)'
+          } else if (position.includes('left') || position.includes('right')) {
+            innerHandle.style.borderLeft = '1px solid rgba(129,129,129,0.8)'
+            innerHandle.style.borderRight = '1px solid rgba(129,129,129,0.8)'
+          }
+        })
+
+        handle.addEventListener('mouseleave', () => {
+          if (position.includes('top') || position.includes('bottom')) {
+            innerHandle.style.borderTop = '1px solid rgba(115,115,115,0.47)'
+            innerHandle.style.borderBottom = '1px solid rgba(115,115,115,0.47)'
+          } else if (position.includes('left') || position.includes('right')) {
+            innerHandle.style.borderLeft = '1px solid rgba(115,115,115,0.47)'
+            innerHandle.style.borderRight = '1px solid rgba(115,115,115,0.47)'
+          }
+        })
+      }
+    }
+
+    // 修正四个角的边框显示
+    if (options?.showHandleStyle) {
+      if (position === 'top-left') {
+        handle.style.borderTop = '2px solid rgba(115,115,115,0.47)'
+        handle.style.borderLeft = '2px solid rgba(115,115,115,0.47)'
+        handle.style.borderBottom = 'none'
+        handle.style.borderRight = 'none'
+      } else if (position === 'bottom-right') {
+        handle.style.borderBottom = '2px solid rgba(115,115,115,0.47)'
+        handle.style.borderRight = '2px solid rgba(115,115,115,0.47)'
+        handle.style.borderTop = 'none'
+        handle.style.borderLeft = 'none'
+      } else if (position === 'top-right') {
+        handle.style.borderTop = '2px solid rgba(115,115,115,0.47)'
+        handle.style.borderRight = '2px solid rgba(115,115,115,0.47)'
+        handle.style.borderBottom = 'none'
+        handle.style.borderLeft = 'none'
+      } else if (position === 'bottom-left') {
+        handle.style.borderBottom = '2px solid rgba(115,115,115,0.47)'
+        handle.style.borderLeft = '2px solid rgba(115,115,115,0.47)'
+        handle.style.borderTop = 'none'
+        handle.style.borderRight = 'none'
+      }
+    }
 
     switch (position) {
       case 'top-left':
         handle.style.top = '0'
         handle.style.left = '0'
-        handle.style.width = '10px'
-        handle.style.height = '10px'
         break
       case 'top-right':
         handle.style.top = '0'
         handle.style.right = '0'
-        handle.style.width = '10px'
-        handle.style.height = '10px'
         break
       case 'bottom-left':
         handle.style.bottom = '0'
         handle.style.left = '0'
-        handle.style.width = '10px'
-        handle.style.height = '10px'
         break
       case 'bottom-right':
         handle.style.bottom = '0'
         handle.style.right = '0'
-        handle.style.width = '10px'
-        handle.style.height = '10px'
         break
       case 'top':
         handle.style.top = '0'
-        handle.style.left = '50%'
-        handle.style.width = '20px'
-        handle.style.transform = 'translateX(-50%)'
+        handle.style.left = '0'
+        handle.style.width = '100%'
+        handle.style.transform = 'none'
         break
       case 'bottom':
         handle.style.bottom = '0'
-        handle.style.left = '50%'
-        handle.style.width = '20px'
-        handle.style.transform = 'translateX(-50%)'
+        handle.style.left = '0'
+        handle.style.width = '100%'
+        handle.style.transform = 'none'
         break
       case 'left':
-        handle.style.top = '50%'
+        handle.style.top = '0'
         handle.style.left = '0'
-        handle.style.height = '20px'
-        handle.style.transform = 'translateY(-50%)'
+        handle.style.height = '100%'
+        handle.style.transform = 'none'
         break
       case 'right':
-        handle.style.top = '50%'
+        handle.style.top = '0'
         handle.style.right = '0'
-        handle.style.height = '20px'
-        handle.style.transform = 'translateY(-50%)'
+        handle.style.height = '100%'
+        handle.style.transform = 'none'
         break
       default:
         break
