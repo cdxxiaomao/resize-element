@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/cdxxiaomao/resize-element/compare/v0.1.0...v0.1.1) (2025-03-16)
+
+
+### Bug Fixes
+
+* 修复四个角会被边盖住，触发不了的问题 ([38e5f7c](https://github.com/cdxxiaomao/resize-element/commit/38e5f7c10e04ac187a1741d07edfb3630f398d31))
+
 ## [0.1.0](https://github.com/cdxxiaomao/resize-element/compare/v0.0.3...v0.1.0) (2025-03-16)
 
 
